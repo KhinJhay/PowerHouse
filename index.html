@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>PowerHour — Kill Your Electricity Bill</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <header>
+        <div class="logo">Power<span>Hour</span></div>
+        <div class="header-r">
+            <button class="settings-btn" onclick="openSettings()">⚙</button>
+            <a href="https://www.linkedin.com/in/" target="_blank" class="connect-btn">Connect With Me</a>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-label">⚡ Energy Cost Calculator</div>
+        <h1><span class="line1">Kill Your</span><span class="line2">Electric Bill.</span></h1>
+        <p class="hero-desc">Find out exactly which appliance is draining your wallet. Add your devices, see who the real Energy Hog™ is, and slash your bill fast.</p>
+    </div>
+
+    <div class="rate-strip">
+        <div class="rate-panel">
+            <div class="rate-field">
+                <span class="rate-label">Currency</span>
+                <select class="rate-select" id="currencySymbol" onchange="recalculate()">
+                    <option value="$">$ USD</option>
+                    <option value="€">€ EUR</option>
+                    <option value="£">£ GBP</option>
+                    <option value="₵">₵ GHS</option> <!-- Added GHS for Ghana -->
+                    <option value="₦">₦ NGN</option>
+                    <option value="₹">₹ INR</option>
+                </select>
+            </div>
+            <div class="rate-field">
+                <span class="rate-label">Cost per kWh</span>
+                <input type="number" class="rate-input" id="ratePerKwh" value="0.15" step="0.01" min="0.01" onchange="recalculate()"/>
+            </div>
+            <div class="rate-field">
+                <span class="rate-label">Country Preset</span>
+                <select class="rate-select" id="countryPreset" onchange="applyPreset()">
+                    <option value="">Custom</option>
+                    <option value="0.15">🇺🇸 USA (avg)</option>
+                    <option value="0.30">🇩🇪 Germany</option>
+                    <option value="0.24">🇬🇧 UK</option>
+                    <option value="0.12">🇳🇬 Nigeria</option>
+                    <option value="0.08">🇮🇳 India</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div>
+            <div class="panel-title">Your Appliances <span id="appCount">0 DEVICES</span></div>
+            <div class="appliance-list" id="appList"></div>
+            <button class="add-appliance" onclick="addCustomAppliance()">+ ADD CUSTOM APPLIANCE</button>
+        </div>
+
+        <div class="sidebar">
+            <div class="bill-panel">
+                <div class="bill-header">
+                    <div class="bill-header-title">Monthly Bill Estimate</div>
+                    <div class="total-amount" id="totalBill">$0</div>
+                    <div class="total-period" id="totalPeriod">0 kWh · $0 daily</div>
+                </div>
+                <div class="bill-body">
+                    <div class="bill-row"><span class="bill-row-label">DAILY COST</span><span class="bill-row-val" id="dailyCost">$0</span></div>
+                    <div class="bill-row"><span class="bill-row-label">WEEKLY COST</span><span class="bill-row-val" id="weeklyCost">$0</span></div>
+                    <div class="bill-row"><span class="bill-row-label">YEARLY COST</span><span class="bill-row-val" id="yearlyCost">$0</span></div>
+                    <div class="bill-row"><span class="bill-row-label">TOTAL kWh/MONTH</span><span class="bill-row-val" id="totalKwh">0</span></div>
+                </div>
+                <div class="hog-trophy" id="hogTrophy" style="display:none">
+                    <div class="trophy-label">🏆 Energy Hog™ Award Goes To...</div>
+                    <div class="trophy-name" id="hogName">—</div>
+                    <div class="trophy-cost" id="hogCost">—</div>
+                </div>
+                <div class="bar-chart" id="barChart"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-box">
+            <div class="sb-title">⚙ Settings <button class="sb-close" onclick="closeSettings()">✕</button></div>
+            <div class="setting-row"><div><div class="setting-label">Light Mode</div><div class="setting-sub">Switch to light background</div></div><button class="toggle" id="themeToggle" onclick="toggleTheme()"></button></div>
+            <div class="setting-row"><div><div class="setting-label">Show Bar Chart</div><div class="setting-sub">Visual cost breakdown</div></div><button class="toggle on" id="barToggle" onclick="toggleBars()"></button></div>
+            <div class="setting-row"><div><div class="setting-label">Show Energy Hog</div><div class="setting-sub">Trophy for biggest spender</div></div><button class="toggle on" id="hogToggle" onclick="toggleHog()"></button></div>
+            <div class="setting-row"><div><div class="setting-label">Days in Month</div><div class="setting-sub">30 or 31 days</div></div><select class="sb-select" id="daysInMonth" onchange="recalculate()"><option value="30">30 days</option><option value="31">31 days</option></select></div>
+        </div>
+    </div>
+
+    <footer>POWERHOUR · ELECTRICITY COST ESTIMATOR</footer>
+
+    <!-- JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
